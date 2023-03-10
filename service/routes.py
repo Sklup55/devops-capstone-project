@@ -58,7 +58,6 @@ def create_accounts():
     )
 
 
-# ... place you code here to LIST accounts ...
 
 ######################################################################
 # LIST ALL ACCOUNTS
@@ -78,7 +77,6 @@ def list_accounts():
     return jsonify(account_list), status.HTTP_200_OK
 
 
-# ... place you code here to READ an account ...
 
 ######################################################################
 # READ AN ACCOUNT
@@ -98,8 +96,6 @@ def get_accounts(account_id):
     return account.serialize(), status.HTTP_200_OK
 
 
-
-# ... place you code here to UPDATE an account ...
 
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
@@ -121,9 +117,6 @@ def update_accounts(account_id):
 
     return account.serialize(), status.HTTP_200_OK
 
-
-
-# ... place you code here to DELETE an account ...
 
 ######################################################################
 # DELETE AN ACCOUNT
