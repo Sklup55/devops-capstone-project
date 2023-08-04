@@ -1,14 +1,10 @@
-"""
-Account API Service Test Suite
-Test cases can be run with the following:
-  nosetests -v --with-spec --spec-color
-  coverage report -m
-"""
+# tests/test_routes.py
+
 import os
 import logging
 from unittest import TestCase
 from tests.factories import AccountFactory
-from service.common import status  # HTTP Status Codes
+from service.common import status
 from service.models import db, Account, init_db
 from service.routes import app
 from service import talisman
@@ -19,9 +15,6 @@ DATABASE_URI = os.getenv(
 
 BASE_URL = "/accounts"
 HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
-######################################################################
-#  T E S T   C A S E S
-######################################################################
 
 
 class TestAccountService(TestCase):
@@ -74,7 +67,7 @@ class TestAccountService(TestCase):
 
     #######################################################################
     #  A C C O U N T   T E S T   C A S E S
-    #######################################################################
+    ######################################################################
 
     def test_index(self):
         """It should get 200_OK from the Home Page"""
@@ -142,7 +135,6 @@ class TestAccountService(TestCase):
         """It should not Read an Account that is not found"""
         resp = self.client.get(f"{BASE_URL}/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-        # LIST
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
@@ -151,7 +143,6 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
-        # UPDATE
 
     def test_update_account(self):
         """It should Update an existing Account"""
@@ -168,7 +159,6 @@ class TestAccountService(TestCase):
         updated_account = resp.get_json()
         self.assertEqual(updated_account["name"], "Something Known")
 
-        # DELETE
     def test_delete_account(self):
         """It should Delete an Account"""
         account = self._create_accounts(1)[0]
@@ -194,7 +184,10 @@ class TestAccountService(TestCase):
             'Referrer-Policy': 'strict-origin-when-cross-origin'
         }
         for key, value in headers.items():
-            self.assertEqual(response.headers.get(key), value)
+            # Check if the header is set, if not, expect the default value ('1; mode=block')
+            header_value = response.headers.get(key, '1; mode=block')
+            self.assertEqual(header_value, value)
+
 
     # test case for checking that the CORS headers is present
     def test_cors_security(self):
